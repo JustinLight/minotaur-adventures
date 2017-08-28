@@ -9,6 +9,16 @@ var dice = {
 	}
 
 }
+var sides;
+//on click 
+$(".sides button").click(function(){
+	//remove selected tag from siblings
+ 	$(this).siblings().removeClass("selected");
+	//add selected tag to this 
+ 	$(this).addClass("selected");
+	//grab sides number
+	});
+
 
 
 function printNumber(number) {
