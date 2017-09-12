@@ -1,14 +1,5 @@
 
-var selectedSides = $(this)
-
-var dice = {
-	sides: selectedSides,
-	roll: function () {
-		var randomNumber = Math.floor(Math.random() * this.sides) + 1;
-		return randomNumber;
-	}
-
-}
+var selectedSides
 var sides;
 //on click 
 $(".sides button").click(function(){
@@ -17,7 +8,18 @@ $(".sides button").click(function(){
 	//add selected tag to this 
  	$(this).addClass("selected");
 	//grab sides number
+	selectedSides = $(this).attr("id")
+	console.log(selectedSides)
 	});
+
+var dice = {
+	roll: function () {
+		var randomNumber = Math.floor(Math.random() * selectedSides) + 1;
+		return randomNumber;
+	}
+
+}
+
 
 
 
