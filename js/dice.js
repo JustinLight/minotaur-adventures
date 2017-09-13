@@ -1,5 +1,5 @@
 
-var selectedSides
+var selectedSides = "6";
 var sides;
 //on click 
 $(".sides button").click(function(){

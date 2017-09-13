@@ -1,17 +1,43 @@
 body {
 
-	background-color: #053625;
+	background-color: #EFEFE0;
+	text-align: center;
 }
 
 h1 {
-	color: #dd9d02;
+	color: #455920;
 	font-family: 'Fredericka the Great', cursive;
-	font-size: 5em;
+	font-size: 4em;
 	padding-top: 1em;
 	
 
 }
 
+
+.button {
+	color: #455920;
+	background-color: #D7E08F;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
 .selected {
-	background-color: red;
+	background-color: #C1CB5D;
+}
+
+.selectDie {
+	color: #455920;
+	font-family: 'Muli', sans-serif;
+	font-size: 2em;
+	padding-top: 1em;
+}
+
+#placeholder {
+	font-family: 'Fredericka the Great', cursive;
+	font-size: 4em;
+	color: #455920;
 }
