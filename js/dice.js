@@ -9,8 +9,7 @@ $(".sides button").click(function(){
  	$(this).addClass("selected");
 	//grab sides number
 	selectedSides = $(this).attr("id")
-	console.log(selectedSides)
-	});
+});
 
 var dice = {
 	roll: function () {
