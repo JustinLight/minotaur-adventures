@@ -1,7 +1,6 @@
 body {
 
 	background-color: #EFEFE0;
-	text-align: center;
 }
 
 h1 {
@@ -40,4 +39,17 @@ h1 {
 	font-family: 'Fredericka the Great', cursive;
 	font-size: 4em;
 	color: #455920;
+}
+
+/**********************************Random Charaters*************************************/
+
+.stats {
+	display: flex;
+	flex-wrap: wrap;
+	width: 10em;
+	justify-content: space-around;
+}
+
+.stats div {
+	padding: 0 1em;
 }
