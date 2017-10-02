@@ -7,7 +7,6 @@ var craft = ["Carpentry", "Smithing", "Fletching", "Skinning", "Leatherworking",
 var performance = ["Singing", "Playing an instrument", "Dancing", "Acting", "Juggling", "Jesting", "Storytelling", "Poetry"];
 var riding = ["Riding - Horse", "Riding - Elephant", "Riding - Dire Wolf", "Riding - Griffon", "Riding - Pegasus", "Riding - Hippogriff", "Riding - Giant Eagle"];
 var picked;
-var hold = [];
 var weapons = [["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing Hammer", "War Hammer", "Javelin", "Lance", "Mace", "Net", "Spear", "Bastard Sword", "Normal Sword", "Short Sword", "Trident", "Whip", "Battle Axe", "Halberd", "Pike", "Poleaxe", "Staff", "Two-Handed Sword", "Horned Shield", "Knife Shield", "Sword Shield", "Tusked Shield", "Large Blowgun", "Small Blowgun", "Bolas", "Long Bow", "Short Bow", "Heavy Crossbow", "Light Crossbow", "Pistol", "Sling", "Smoothbore"],
 				["Dagger", "Net", "Whip", "Staff", "Large Blowgun", "Small Blowgun", "Pistol", "Sling"],
 				["Blackjack", "Club", "Throwing Hammer", "War Hammer", "Mace", "Staff", "Sling"],
@@ -16,16 +15,20 @@ var weapons = [["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing H
 				["Hand Axe", "Blackjack", "Cestus", "Dagger", "Short Sword", "Horned Shield", "Knife Shield", "Sword Bow", "Light Crossbow", "Pistol"],
 				["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing Hammer", "War Hammer", "Javelin", "Lance", "Mace", "Net", "Spear", "Bastard Sword", "Normal Sword", "Short Sword", "Trident", "Whip", "Battle Axe", "Halberd", "Pike", "Poleaxe", "Staff", "Two-Handed Sword", "Large Blowgun", "Small Blowgun", "Bolas", "Long Bow", "Short Bow", "Heavy Crossbow", "Light Crossbow", "Pistol", "Sling", "Smoothbore"],
 				["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing Hammer", "War Hammer", "Javelin", "Lance", "Mace", "Net", "Spear", "Bastard Sword", "Normal Sword", "Short Sword", "Trident", "Whip", "Large Blowgun", "Small Blowgun", "Bolas", "Long Bow", "Short Bow", "Heavy Crossbow", "Light Crossbow", "Pistol", "Sling"]];
-var arrayLength;
+var itemArray = ["Grappling Hook", "Holy Water (small vial)", "Iron Spike", "Lantern and Flask of Oil", "Mirror (steel)", "Pole (10')", "Red Powder (flask)", "Rope (50')", "Sack (holds 200cn)", "Sack (holds 600cn)", "Tent", "Tinder Box", "Torch (5)"];
+
+
 
 function Dice(sides, n) {
   this.sides = sides +1;
   this.n = n;
-  this.roll = function () {
-     var randomNumber = Math.floor(Math.random() * (this.sides - n) + n);
-  return randomNumber;  
-	}
+ 
 }
+
+Dice.prototype.roll = function () {
+    var randomNumber = Math.floor(Math.random() * (this.sides - this.n) + this.n);
+  	return randomNumber;  
+	}
   
 
 var random6 = new Dice(6, 1);
@@ -33,11 +36,15 @@ var random8 = new Dice(8, 1);
 var randomCraft = new Dice(13, 1);
 var randomPerformance = new Dice(8, 1);
 var randomRiding = new Dice(7, 1);
-var randomArray = new Dice(arrayLength, 1);
+var randomSkill = new Dice(28, 1);
+var random5 = new Dice(5, 1);
+var random2 = new Dice(2, 1);
+var random4 = new Dice(4, 1);
+var random13 = new Dice(13, 1);
 
 
 function printCharacter(character) {
-  var setCharacter = ["class", "str", "strBonus", "int", "intBonus", "wis", "wisBonus", "con", "conBonus", "dex", "dexBonus", "cha", "chaBonus", "attackBonus", "skill1", "skill2", "skill3", "skill4"]
+  var setCharacter = ["class", "str", "strBonus", "int", "intBonus", "wis", "wisBonus", "con", "conBonus", "dex", "dexBonus", "cha", "chaBonus", "attackBonus", "skills", "feats", "items"]
   for (var i = 0; i < setCharacter.length; i++) {
   	var setClass = document.getElementById(setCharacter[i]);
   	setClass.innerHTML = character[i];
@@ -73,36 +80,46 @@ button.onclick = function() {
   	randomCharacter.push(1);
 
   	//random skills
-  	for (var i = 0; i < 4; i++) {
+  	var skillList = [];
+    var  intBonus = randomCharacter[4];
+    if (intBonus < 1) {
+      intBonus = 0;
+    };
+    for (var i = 0; i < 4 + intBonus; i++) {
+  		picked = skills[randomSkill.roll()];
   		
-  		arrayLength = Number(skills.length);
-		var rollResult = randomArray.roll()
-  		picked = skills[rollResult];
-  		hold.push(picked);
-  		skills.splice(i, 1);
-  		if (picked === "craft") {
-  			picked = craft[randomCraft.roll()];
-  		}
-  		if (picked === "performance") {
-  			picked = performance[randomPerformance.roll()];
-  		}
-  		if (picked === "riding" ) {
-  			picked = riding[randomRiding.roll()];
-  		}
-  		
-  		randomCharacter.push(picked);
-  	}
+  		 		
+  		if (skillList.indexOf(picked)=== -1) {
 
-  	
-  	Array.prototype.push.apply(skills, hold);
-	hold.splice(0);
+	  		if (picked === "craft") {
+	  			picked = craft[randomCraft.roll()];
+	  		}
+	  		if (picked === "performance") {
+	  			picked = performance[randomPerformance.roll()];
+	  		}
+	  		if (picked === "riding" ) {
+	  			picked = riding[randomRiding.roll()];
+	  		}
+  		
+  			skillList.push(picked);
+  		}
+
+  		else {
+  			i--;
+  		}
+      
+
+ 	  }
+
+  	var skillSting = skillList.join(', ');
+    randomCharacter.push(skillSting);
+
   	
 
   	//random weapon and weapon feats
-  	/*var feats;
-  	var classWeapon = classIndex;
-  	arrayLength = weapons[classWeapon].length;
-  	if (classWeapon === 0) {
+  	var feats;
+    var featList = [];
+  	if (classIndex === 0) {
   		feats = 4;
   	}
   	else { 
@@ -110,17 +127,102 @@ button.onclick = function() {
   	}
 
   	for (var i = 0; i < feats; i++) {
-  		picked = skills[i];
-  		hold.push(picked);
-  		skills.splice(i, 1);
-  	}*/
+
+  		picked = weapons[classIndex][Math.floor(Math.random() * weapons[classIndex].length)];
+      if (featList.indexOf(picked)=== -1) {
+        featList.push(picked);
+      }
+      else {
+        i--;
+      }
+      
+  	}
+    var featString = featList.join(', ');
+    randomCharacter.push(featString);
+    
 
 
+    //random items
+
+    var baseItems = ["Backpack", "Waterskin (full)", "Rations - dried (1 week)", "Purse"]
+    var items = baseItems.concat(featList);
+
+    //random armor
+
+    var armorList = ["Leather Armor", "Scale Mail", "Chain Mail", "Banded Mail", "Plate Mail"]
+
+    //fighter cleric dwarf elf halfling
+    if (classIndex === 0 || classIndex === 2 || classIndex === 3 || classIndex === 4 || classIndex === 5)
+      items.push(armorList[random5.roll()])
+      if (random2.roll() === 2) {
+        items.push("Shield");
+      }
+
+    //check class for class items
+
+    if (classIndex === 1) {
+      items.push('Spell Book');
+    }
+
+    if (classIndex === 2) {
+      items.push('Holy Symbol');
+    }
+
+    //check for weapons that need ammo
+
+    if (items.indexOf("Long Bow") > -1 || items.indexOf("Short Bow") > -1) {
+
+      items.push('Arrows (20)');
+      items.push('Quiver');
+    }
+
+    if (items.indexOf("Heavy Crossbow") > -1 || items.indexOf("Light Crossbow") > -1) {
+
+      items.push('Bolts (20)');
+      items.push('Quiver');
+    }
+
+    if (items.indexOf("Large Blowgun") > -1 || items.indexOf("Small Blowgun") > -1) {
+
+      items.push('Pellets (30)');
+
+    }
+
+    if (items.indexOf("Pistol") > -1 || items.indexOf("Smoothbore") > -1) {
+
+      items.push('Bullets (20)');
+
+    }
+
+    //clothes
+    var cloak = ["Cloak (short)", "Cloak (long)"];
+    var clothes = ["Clothes (peasant)", "Clothes (merchant)", "Clothes (noble)", "Clothes (royal)"];
+    var boots = ["Boots (plain)", "Boots (fancy)"];
+    items.push("Belt");
+    items.push(cloak[random2.roll()-1]);
+    items.push(clothes[random4.roll()-1]);
+    items.push(boots[random2.roll()-1]);
+    if (random2.roll() === 2) {
+        items.push("Hat");
+      }
+
+    //add a few more random items
+    var miscItems = [];
+    for (var i = 0; i < 4; i++) {
+          picked = itemArray[random13.roll()-1];
+          if (miscItems.indexOf(picked) === -1) {
+            miscItems.push(picked);
+          }
+          else {
+            i--;
+          }
+       }
+       var allItems = items.concat(miscItems);
+       var itemString = allItems.join(', ');
+
+    randomCharacter.push(itemString);
 
 
-
-
-  	
-  	console.log(randomCharacter);
-  	printCharacter(randomCharacter);
+    	console.log(randomCharacter);
+    	printCharacter(randomCharacter);
 };
