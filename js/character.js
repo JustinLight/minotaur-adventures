@@ -16,8 +16,9 @@ var weapons = [["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing H
 				["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing Hammer", "War Hammer", "Javelin", "Lance", "Mace", "Net", "Spear", "Bastard Sword", "Normal Sword", "Short Sword", "Trident", "Whip", "Battle Axe", "Halberd", "Pike", "Poleaxe", "Staff", "Two-Handed Sword", "Large Blowgun", "Small Blowgun", "Bolas", "Long Bow", "Short Bow", "Heavy Crossbow", "Light Crossbow", "Pistol", "Sling", "Smoothbore"],
 				["Hand Axe", "Blackjack", "Club", "Cestus", "Dagger", "Throwing Hammer", "War Hammer", "Javelin", "Lance", "Mace", "Net", "Spear", "Bastard Sword", "Normal Sword", "Short Sword", "Trident", "Whip", "Large Blowgun", "Small Blowgun", "Bolas", "Long Bow", "Short Bow", "Heavy Crossbow", "Light Crossbow", "Pistol", "Sling"]];
 var itemArray = ["Grappling Hook", "Holy Water (small vial)", "Iron Spike", "Lantern and Flask of Oil", "Mirror (steel)", "Pole (10')", "Red Powder (flask)", "Rope (50')", "Sack (holds 200cn)", "Sack (holds 600cn)", "Tent", "Tinder Box", "Torch (5)"];
-
-
+var saves = [[12, 13, 14, 15, 16], [13, 14, 13, 16, 15], [11, 12, 14, 16, 15], [12, 13, 13, 15, 15], [8, 9, 10, 13, 12], [8, 9, 10, 13, 12], [12, 13, 14, 15, 16], [13, 14, 13, 16, 15]]
+var spells = ["Analyse", "Charm Person", "Detect Magic", "Floating Disc", "Hold Portal", "Light", "Magic Missile", "Protection From Evil", "Read Languages", "Shield", "Sleep", "Ventriloquism"]
+var specialAbilities = ["None", "None", "None", "Heatvision / Elfsight / Ghoul Immunity", "Heatvision / Stonelore", "Small/Nimble/Unobtrusive", "None", "None"]
 
 function Dice(sides, n) {
   this.sides = sides +1;
@@ -41,10 +42,11 @@ var random5 = new Dice(5, 1);
 var random2 = new Dice(2, 1);
 var random4 = new Dice(4, 1);
 var random13 = new Dice(13, 1);
+var random12 = new Dice(12, 1);
 
 
 function printCharacter(character) {
-  var setCharacter = ["class", "str", "strBonus", "int", "intBonus", "wis", "wisBonus", "con", "conBonus", "dex", "dexBonus", "cha", "chaBonus", "attackBonus", "skills", "feats", "items"]
+  var setCharacter = ["class", "str", "strBonus", "int", "intBonus", "wis", "wisBonus", "con", "conBonus", "dex", "dexBonus", "cha", "chaBonus", "attackBonus", "skills", "feats", "items", "death", "wands", "paralysis", "breath", "spell", "specialAbilities", "firstSpell"]
   for (var i = 0; i < setCharacter.length; i++) {
   	var setClass = document.getElementById(setCharacter[i]);
   	setClass.innerHTML = character[i];
@@ -222,6 +224,25 @@ button.onclick = function() {
 
     randomCharacter.push(itemString);
 
+    //set saves based on class
+    for (var i = 0; i < 5; i++) {
+          randomCharacter.push(saves[classIndex][i])
+       };
+
+    //Specail Abilities
+    randomCharacter.push(specialAbilities[classIndex]);
+
+
+    //random spells for Elf and Magic User only
+    if (classIndex === 1) {
+      randomCharacter.push(spells[random12.roll()-1])
+    }
+    if (classIndex === 3) {
+      randomCharacter.push(spells[random12.roll()-1])
+    }
+    else {
+      randomCharacter.push("None")
+    }
 
     	console.log(randomCharacter);
     	printCharacter(randomCharacter);
